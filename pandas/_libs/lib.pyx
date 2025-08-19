@@ -175,6 +175,13 @@ def is_scalar(val: object) -> bool:
         - DateOffset
         - Fraction
         - Number.
+        - Any other non-sequence objects (e.g. Enum members, custom objects)
+
+        Objects that are explicitly treated as *non-scalar* include:
+        - numpy.ndarray
+        - list
+        - tuple
+        - pandas.Series
 
     Returns
     -------
@@ -208,6 +215,13 @@ def is_scalar(val: object) -> bool:
 
     >>> from fractions import Fraction
     >>> pd.api.types.is_scalar(Fraction(3, 5))
+    True
+
+    >>> from enum import Enum, auto
+    >>> class Thing(Enum):
+    ...     one = auto()
+    ...     two = auto()
+    >>> pd.api.types.is_scalar(Thing.one)
     True
     """
 
