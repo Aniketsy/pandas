@@ -176,12 +176,6 @@ def is_scalar(val: object) -> bool:
         - Fraction
         - Number.
 
-        Objects that are explicitly treated as *non-scalar* include:
-        - numpy.ndarray
-        - list
-        - tuple
-        - pandas.Series
-
     Returns
     -------
     bool
@@ -215,13 +209,6 @@ def is_scalar(val: object) -> bool:
     >>> from fractions import Fraction
     >>> pd.api.types.is_scalar(Fraction(3, 5))
     True
-
-    >>> from enum import Enum, auto
-    >>> class Thing(Enum):
-    ...     one = auto()
-    ...     two = auto()
-    >>> pd.api.types.is_scalar(Thing.one)
-    False
     """
 
     # Start with C-optimized checks
@@ -1987,11 +1974,9 @@ cdef class ComplexValidator(Validator):
         return cnp.PyDataType_ISCOMPLEX(self.dtype)
 
 
-cdef bint is_complex_array(ndarray values, bint skipna=True):
+cdef bint is_complex_array(ndarray values):
     cdef:
-        ComplexValidator validator = ComplexValidator(values.size,
-                                                      values.dtype,
-                                                      skipna=skipna)
+        ComplexValidator validator = ComplexValidator(values.size, values.dtype)
     return validator.validate(values)
 
 
