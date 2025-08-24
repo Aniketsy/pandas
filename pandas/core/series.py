@@ -3112,7 +3112,8 @@ class Series(base.IndexOpsMixin, NDFrame):  # type: ignore[misc]
             Function that takes two scalars as inputs and returns an element.
         fill_value : scalar, optional
             The value to assume when an index is missing from
-            one Series or the other. The default specifies to use the
+            one Series or the other. Scalars are any value that is not a numpy.ndarray,
+            list, tuple or Series. The default specifies to use the
             appropriate NaN value for the underlying dtype of the Series.
 
         Returns
@@ -6072,6 +6073,11 @@ class Series(base.IndexOpsMixin, NDFrame):  # type: ignore[misc]
 
         Equivalent to ``series == other``, but with support to substitute a fill_value
         for missing data in either one of the inputs.
+
+        By default, comparisons with missing values (e.g. ``np.nan``, ``pd.NA``) will
+        return ``False`` for those positions, even when comparing missing values to
+        themselves. If ``fill_value`` is specified, missing values are replaced before
+        comparison.
 
         Parameters
         ----------
