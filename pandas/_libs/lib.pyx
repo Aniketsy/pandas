@@ -175,7 +175,6 @@ def is_scalar(val: object) -> bool:
         - DateOffset
         - Fraction
         - Number.
-        - Any other non-sequence objects (e.g. Enum members, custom objects)
 
         Objects that are explicitly treated as *non-scalar* include:
         - numpy.ndarray
@@ -222,7 +221,7 @@ def is_scalar(val: object) -> bool:
     ...     one = auto()
     ...     two = auto()
     >>> pd.api.types.is_scalar(Thing.one)
-    True
+    False
     """
 
     # Start with C-optimized checks
